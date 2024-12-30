@@ -1,0 +1,38 @@
+﻿services:
+  api:
+   container_name: basic-crud
+   build:
+    dockerfile: Dockerfile
+    context: .
+   ports:
+    - 4652:8080
+   environment:
+    - ASPNETCORE_ENVIRONMENT=Development 
+   depends_on: ["basic-crud-sql"]
+   networks: 
+    basic-networks: 
+    
+
+
+  basic-crud-sql:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    environment:
+    - "ACCEPT_EULA=Y"
+    - "MSSQL_SA_PASSWORD=Alesandrodiogo12"
+    volumes:
+    - "basic-crud-mssql-server:/var/opt/mssql"
+    networks:
+     basic-networks:
+      aliases:
+          - "sql"      
+    
+
+volumes:
+  basic-crud-mssql-server:
+
+
+
+networks:
+  basic-networks:
+     driver: bridge
+
